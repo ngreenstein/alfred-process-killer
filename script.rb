@@ -6,15 +6,15 @@ theQuery = ""
 #theQuery = "{query}"
 
 # Assemble an array of each matching process. It will contain the process's path and percent CPU usage.
-# The -A flag shows all processes. The -o %cpu and -o comm show only the process's CPU usage and path, respectively.
+# The -A flag shows all processes. The -o pid, -o %cpu, and -o comm show only the process's PID, CPU usage and path, respectively.
 # Grep for processes whose name contains the query. The regex isolates the name by only searching characters after the last slash in the path.
 #  The -i flag ignores case.
-processes = `ps -A -o %cpu -o comm | grep -i [^/]*#{theQuery}[^/]*$`.split("\n")
+processes = `ps -A -o pid -o %cpu -o comm | grep -i [^/]*#{theQuery}[^/]*$`.split("\n")
 # Start the XML string that will be sent to Alfred. This just uses strings to avoid dependencies.
 xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
 processes.each do | process |
-	# Extract the CPU usage and path from the line (lines are in the form of 12.3 /path/to/process).
-	processCpu, processPath = process.match(/(\d+\.\d+) (.*)/).captures
+	# Extract the PID, CPU usage, and path from the line (lines are in the form of `123 12.3 /path/to/process`).
+	processId, processCpu, processPath = process.match(/(\d+)\s+(\d+\.\d+)\s+(.*)/).captures
 	# Use the same expression as before to isolate the name of the process.
 	processName = processPath.match(/[^\/]*#{theQuery}[^\/]*$/i)
 	# Search for an application bundle in the path to the process.
@@ -28,7 +28,7 @@ processes.each do | process |
 		iconType = ""
 	end
 	#Assemble this item's XML string for Alfred. See http://www.alfredforum.com/topic/5-generating-feedback-in-workflows/
-	thisXmlString = "\t<item uid=\"#{processName}\" arg=\"#{processName}\">
+	thisXmlString = "\t<item uid=\"#{processName}\" arg=\"#{processId}\">
 		<title>#{processName}</title>
 		<subtitle>#{processCpu}% CPU @ #{processPath}</subtitle>
 		<icon type=\"#{iconType}\">#{iconValue}</icon>

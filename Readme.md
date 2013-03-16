@@ -1,5 +1,5 @@
 #Description
-Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving processes. It is, in essence, a shortcut for `killall processName`.
+Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving processes. It is, in essence, a way to easily find processes by name and kill them using `kill -9`.
 
 #Features
 * Autocompletes process names
@@ -8,6 +8,7 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 * Shows CPU usage
 * Shows process paths
 * Ignores case
+* Kills all processes with matching names on <kbd>cmd</kbd>+<kbd>return</kbd>
 
 ![screenshot: `kill it`](screenshot.png)
 
@@ -15,7 +16,8 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 1. Type `kill` into Alfred followed by a space.
 2. Begin typing the name of the process you want to kill.
 3. When you see the process you want to kill, select it from the list as usual.
-4. Press enter to kill the selected process.
+4. Press return to kill the selected process.  
+Alternatively, press <kbd>cmd</kbd>+<kbd>return</kbd> to kill all processes with the same name as the selected one.
 
 #Installation
 Open `Kill Process.alfredworkflow` and Alfred will walk you through the installation process. No configuration is necessary.
