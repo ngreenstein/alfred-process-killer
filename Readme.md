@@ -31,3 +31,6 @@ The ruby script that powers Kill Process is `script.rb`. For testing, add a valu
 4. Double click the first box ('kill Script Filter').
 5. Paste your script into the 'Script' box at the bottom.
 6. Click Save.
+
+#License
+[WTFPL](http://www.wtfpl.net/about/), of course.
