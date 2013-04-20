@@ -4,17 +4,25 @@ theQuery = ""
 # Grab the query that the user typed (this is provided by Alfred).
 # !!!!! Uncomment this line when pasting into Alfred Preferences.
 #theQuery = "{query}"
+extQuery = nil
+if theQuery.include? ":"
+  theQuery, extQuery = theQuery.split(":")
+end
 
 # Assemble an array of each matching process. It will contain the process's path and percent CPU usage.
 # The -A flag shows all processes. The -o pid, -o %cpu, and -o comm show only the process's PID, CPU usage and path, respectively.
 # Grep for processes whose name contains the query. The regex isolates the name by only searching characters after the last slash in the path.
 #  The -i flag ignores case.
-processes = `ps -A -o pid -o %cpu -o comm | grep -i [^/]*#{theQuery}[^/]*$`.split("\n")
+processes = `ps -A -o pid,%cpu,comm | grep -i [^/]*#{theQuery}[^/]*$`.split("\n")
 # Start the XML string that will be sent to Alfred. This just uses strings to avoid dependencies.
 xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
 processes.each do | process |
 	# Extract the PID, CPU usage, and path from the line (lines are in the form of `123 12.3 /path/to/process`).
 	processId, processCpu, processPath = process.match(/(\d+)\s+(\d+\.\d+)\s+(.*)/).captures
+	# Filter if has extQuery
+  if extQuery != nil and `ps -o command -p #{processId} | grep -i '#{extQuery}'` == ""
+    next
+  end
 	# Use the same expression as before to isolate the name of the process.
 	processName = processPath.match(/[^\/]*#{theQuery}[^\/]*$/i)
 	# Search for an application bundle in the path to the process.
