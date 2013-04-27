@@ -13,7 +13,7 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 * Supports [Alleyoop updating](http://www.alfredforum.com/topic/1582-alleyoop-update-alfred-workflows/).
 
 ![screenshot: `kill it`](screenshot1.png)
-![screenshot: `kill pyt:i`](screenshot2.png)
+![screenshot: `kill chr:type=pp`](screenshot2.png)
 
 #Usage
 1. Type `kill` into Alfred followed by a space.
