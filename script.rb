@@ -14,7 +14,7 @@ processes = `ps -A -o pid -o %cpu -o comm | grep -i [^/]*#{theQuery}[^/]*$`.spli
 xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
 processes.each do | process |
 	# Extract the PID, CPU usage, and path from the line (lines are in the form of `123 12.3 /path/to/process`).
-	processId, processCpu, processPath = process.match(/(\d+)\s+(\d+\.\d+)\s+(.*)/).captures
+	processId, processCpu, processPath = process.match(/(\d+)\s+(\d+[\.|\,]\d+)\s+(.*)/).captures
 	# Use the same expression as before to isolate the name of the process.
 	processName = processPath.match(/[^\/]*#{theQuery}[^\/]*$/i)
 	# Search for an application bundle in the path to the process.
