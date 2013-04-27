@@ -3,6 +3,7 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 
 #Features
 * Autocompletes process names
+* Supports argument filtering (`process:arg`)
 * Learns and prioritizes processes you kill frequently
 * Shows icons when possible
 * Shows CPU usage
@@ -11,7 +12,8 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 * Kills all processes with matching names on <kbd>cmd</kbd>+<kbd>return</kbd>
 * Supports [Alleyoop updating](http://www.alfredforum.com/topic/1582-alleyoop-update-alfred-workflows/).
 
-![screenshot: `kill it`](screenshot.png)
+![screenshot: `kill it`](screenshot1.png)
+![screenshot: `kill pyt:i`](screenshot2.png)
 
 #Usage
 1. Type `kill` into Alfred followed by a space.
@@ -19,6 +21,8 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 3. When you see the process you want to kill, select it from the list as usual.
 4. Press return to kill the selected process.  
 Alternatively, press <kbd>cmd</kbd>+<kbd>return</kbd> to kill all processes with the same name as the selected one.
+
+To filter by argument, add a colon and the argument you want to target (or a snippet of it) after your processes name (see the [second screenshot](screenshot2.png)).
 
 #Installation
 Open `Kill Process.alfredworkflow` and Alfred will walk you through the installation process. No configuration is necessary.
@@ -34,6 +38,13 @@ The ruby script that powers Kill Process is `script.rb`. For testing, add a valu
 4. Double click the first box ('kill Script Filter').
 5. Paste your script into the 'Script' box at the bottom.
 6. Click Save.
+
+##Alleyoop Support
+If your updates are big enough to justify a new release, please update the Alleyoop support files for auto-updating.
+
+1. Update `current-version.json` with the new version number (a float) and a short description of the changes.
+2. Update `update.json` with the new version number.
+3. **Copy the new update.json into the workflow's folder in Finder.**
 
 #License
 [WTFPL](http://www.wtfpl.net/about/), of course.

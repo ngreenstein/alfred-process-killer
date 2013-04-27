@@ -1,5 +1,5 @@
 {
-	"version": 1.11,
+	"version": 1.2,
 	"download_url": "https://github.com/nathangreenstein/alfred-process-killer/blob/master/Kill%20Process.alfredworkflow?raw=true",
-	"description": "Fixed an issue on systems that used ',' as the decimal separator (thanks to @Kasoki)."
+	"description": "Added argument filtering: type 'process:arg' to only show instances of 'process' invoked with 'arg' (thanks to @anson0370)."
 }
