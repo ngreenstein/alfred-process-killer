@@ -4,6 +4,10 @@ theQuery = ""
 # Grab the query that the user typed (this is provided by Alfred).
 # !!!!! Uncomment this line when pasting into Alfred Preferences.
 #theQuery = "{query}"
+extQuery = nil
+if theQuery.include? ":"
+  theQuery, extQuery = theQuery.split(":")
+end
 
 # Assemble an array of each matching process. It will contain the process's path and percent CPU usage.
 # The -A flag shows all processes. The -o pid, -o %cpu, and -o comm show only the process's PID, CPU usage and path, respectively.
@@ -15,6 +19,10 @@ xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
 processes.each do | process |
 	# Extract the PID, CPU usage, and path from the line (lines are in the form of `123 12.3 /path/to/process`).
 	processId, processCpu, processPath = process.match(/(\d+)\s+(\d+[\.|\,]\d+)\s+(.*)/).captures
+	# Filter if has extQuery
+  if extQuery != nil and `ps -o command -p #{processId} | grep -i '#{extQuery}'` == ""
+    next
+  end
 	# Use the same expression as before to isolate the name of the process.
 	processName = processPath.match(/[^\/]*#{theQuery}[^\/]*$/i)
 	# Search for an application bundle in the path to the process.
