@@ -1,5 +1,5 @@
 {
-	"version": 1.2,
+	"version": 1.21,
 	"download_url": "https://github.com/nathangreenstein/alfred-process-killer/blob/master/Kill%20Process.alfredworkflow?raw=true",
-	"description": "Added argument filtering: type 'process:arg' to only show instances of 'process' invoked with 'arg' (thanks to @anson0370)."
+	"description": "New icon with higer visibility against black backgrounds (thanks to @sudopeople)."
 }
