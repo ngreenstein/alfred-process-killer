@@ -25,7 +25,7 @@ Alternatively, press <kbd>cmd</kbd>+<kbd>return</kbd> to kill all processes with
 To filter by argument, add a colon and the argument you want to target (or a snippet of it) after your processes name (see the [second screenshot](screenshot2.png)).
 
 #Installation
-Open `Kill Process.alfredworkflow` and Alfred will walk you through the installation process. No configuration is necessary.
+Download [version 1.2](https://github.com/ngreenstein/alfred-process-killer/blob/master/Kill%20Process.alfredworkflow?raw=true). Open `Kill Process.alfredworkflow` and Alfred will walk you through the installation process. No configuration is necessary.
 
 #Making Changes
 ##Editing the Script
