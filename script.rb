@@ -1,9 +1,9 @@
 # Type a query to test with here.
 # !!!!! Comment this line out when pasting into alfred preferences.
-theQuery = "chr"
+#theQuery = "chr"
 # Grab the query that the user typed (this is provided by Alfred).
 # !!!!! Uncomment this line when pasting into Alfred Preferences.
-#theQuery = "{query}"
+theQuery = "{query}"
 # Search the query string for an argument filter (in the form of 'process:arg').
 argsQuery = nil
 if theQuery.include? ":"
@@ -43,7 +43,7 @@ processes.each do | process |
 	# Assemble this item's XML string for Alfred. See http://www.alfredforum.com/topic/5-generating-feedback-in-workflows/
 	thisXmlString = "\t<item uid=\"#{processName}\" arg=\"#{processId}\">
 		<title>#{processName}#{matchedArgs.join(" ")}</title>
-		<subtitle>#{processCpu}% CPU @ #{processPath}</subtitle>
+		<subtitle>PID: #{processId}, CPU: #{processCpu}%, \u2318: #{processPath}</subtitle>
 		<icon type=\"#{iconType}\">#{iconValue}</icon>
 	</item>\n"
 	# Append this process's XML string to the global XML string.
