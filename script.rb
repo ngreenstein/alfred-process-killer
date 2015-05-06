@@ -1,9 +1,9 @@
 # Type a query to test with here.
 # !!!!! Comment this line out when pasting into alfred preferences.
-theQuery = "chr"
+#theQuery = "chr"
 # Grab the query that the user typed (this is provided by Alfred).
 # !!!!! Uncomment this line when pasting into Alfred Preferences.
-#theQuery = "{query}"
+theQuery = "{query}"
 # Search the query string for an argument filter (in the form of 'process:arg').
 argsQuery = nil
 if theQuery.include? ":"
@@ -13,7 +13,7 @@ end
 # The -A flag shows all processes. The -o pid, -o %cpu, and -o comm show only the process's PID, CPU usage and path, respectively.
 # Grep for processes whose name contains the query. The regex isolates the name by only searching characters after the last slash in the path.
 #  The -i flag ignores case.
-processes = `ps -A -o pid -o %cpu -o comm | grep -i [^/]*#{Regexp.quote(theQuery)}[^/]*$`.split("\n")
+processes = `ps -u #{Process.uid} -o pid -o %cpu -o comm | grep -i [^/]*#{Regexp.quote(theQuery)}[^/]*$`.split("\n")
 # Start the XML string that will be sent to Alfred. This just uses strings to avoid dependencies.
 xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
 processes.each do | process |
@@ -43,7 +43,7 @@ processes.each do | process |
 	# Assemble this item's XML string for Alfred. See http://www.alfredforum.com/topic/5-generating-feedback-in-workflows/
 	thisXmlString = "\t<item uid=\"#{processName}\" arg=\"#{processId}\">
 		<title>#{processName}#{matchedArgs.join(" ")}</title>
-		<subtitle>#{processCpu}% CPU @ #{processPath}</subtitle>
+		<subtitle>PID: #{processId}, CPU: #{processCpu}%, \u2318: #{processPath}</subtitle>
 		<icon type=\"#{iconType}\">#{iconValue}</icon>
 	</item>\n"
 	# Append this process's XML string to the global XML string.
