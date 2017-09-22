@@ -13,7 +13,7 @@ end
 # The -A flag shows all processes. The -o pid, -o %cpu, and -o comm show only the process's PID, CPU usage and path, respectively.
 # Grep for processes whose name contains the query. The regex isolates the name by only searching characters after the last slash in the path.
 #  The -i flag ignores case.
-processes = `ps -A -o pid -o %cpu -o comm | grep -i [^/]*#{Regexp.quote(theQuery)}[^/]*$`.split("\n")
+processes = `ps -A -o pid -o %cpu -o comm | awk 'NR>1' | sort -nrk 2,2 | grep -i [^/]*#{Regexp.quote(theQuery)}[^/]*$`.split("\n")
 # Start the XML string that will be sent to Alfred. This just uses strings to avoid dependencies.
 xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
 processes.each do | process |
@@ -41,7 +41,7 @@ processes.each do | process |
 		iconType = ""
 	end
 	# Assemble this item's XML string for Alfred. See http://www.alfredforum.com/topic/5-generating-feedback-in-workflows/
-	thisXmlString = "\t<item uid=\"#{processName}\" arg=\"#{processId}\">
+	thisXmlString = "\t<item arg=\"#{processId}\">
 		<title>#{processName}#{matchedArgs.join(" ")}</title>
 		<subtitle>#{processCpu}% CPU @ #{processPath}</subtitle>
 		<icon type=\"#{iconType}\">#{iconValue}</icon>
