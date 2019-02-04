@@ -11,6 +11,7 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 * Ignores case
 * Kills all processes with matching names on <kbd>cmd</kbd>+<kbd>return</kbd>
 * Supports [Alleyoop updating](http://www.alfredforum.com/topic/1582-alleyoop-update-alfred-workflows/).
+* Compatible with Alfred 3
 
 ![screenshot: `kill it`](screenshot1.png)
 ![screenshot: `kill chr:type=pp`](screenshot2.png)
