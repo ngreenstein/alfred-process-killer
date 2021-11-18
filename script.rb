@@ -1,3 +1,4 @@
+require 'json'
 # Type a query to test with here.
 # !!!!! Comment this line out when pasting into alfred preferences.
 theQuery = "chr"
@@ -14,9 +15,11 @@ end
 # Grep for processes whose name contains the query. The regex isolates the name by only searching characters after the last slash in the path.
 #  The -i flag ignores case.
 processes = `ps -A -o pid -o %cpu -o comm | grep -i [^/]*#{Regexp.quote(theQuery)}[^/]*$`.split("\n")
-# Start the XML string that will be sent to Alfred. This just uses strings to avoid dependencies.
-xmlString = "<?xml version=\"1.0\"?>\n<items>\n"
+# Create a hash that will be serialised into a JSON string for Alfred.
+result = {items: []}
 processes.each do | process |
+	# Create a hash for each matched process in the script filter output.
+	item = {variables:{}, icon: {}}
 	# Extract the PID, CPU usage, and path from the line (lines are in the form of `123 12.3 /path/to/process`).
 	processId, processCpu, processPath = process.match(/(\d+)\s+(\d+[\.|\,]\d+)\s+(.*)/).captures
 	# If an argument filter has been specified, get the arguments and search for the filter.
@@ -30,25 +33,25 @@ processes.each do | process |
   end
 	# Use the same expression as before to isolate the name of the process.
 	processName = processPath.match(/[^\/]*#{theQuery}[^\/]*$/i)
+	# Start assembling this process's JSON values.
+	item[:uid] = processName
+	item[:title] = "#{processName}#{matchedArgs.join(" ")}"
+	item[:arg] = processId
+	item[:subtitle] = "#{processCpu}% CPU @ #{processPath}"
+	# Add processPath to the workflow's environment variables when this item is actioned. This enables relaunching the process.
+	item[:variables][:path] = processPath
 	# Search for an application bundle in the path to the process.
-	iconValue = processPath.match(/.*?\.app\//)
+	item[:icon][:path] = processPath.match(/.*?\.app\//)
 	# The icon type sent to Alfred is 'fileicon' (taken from a file). This assumes that a .app was found.
-	iconType = "fileicon"
+	item[:icon][:type] = "fileicon"
 	# If no .app was found, use OS X's generic 'executable binary' icon.
 	# An empty icon type tells Alfred to load the icon from the file itself, rather than loading the file type's icon.
-	if !iconValue
-		iconValue = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
-		iconType = ""
+	if !item[:icon][:path]
+		item[:icon][:path] = "/System/Library/CoreServices/CoreTypes.bundle/Contents/Resources/ExecutableBinaryIcon.icns"
+		item[:icon][:type] = ""
 	end
-	# Assemble this item's XML string for Alfred. See http://www.alfredforum.com/topic/5-generating-feedback-in-workflows/
-	thisXmlString = "\t<item uid=\"#{processName}\" arg=\"#{processId}\">
-		<title>#{processName}#{matchedArgs.join(" ")}</title>
-		<subtitle>#{processCpu}% CPU @ #{processPath}</subtitle>
-		<icon type=\"#{iconType}\">#{iconValue}</icon>
-	</item>\n"
-	# Append this process's XML string to the global XML string.
-	xmlString += thisXmlString
+	# Append this process's hash to the global hash.
+	result[:items].push(item)
 end
-# Finish off and echo the XML string to Alfred.
-xmlString += "</items>"
-puts xmlString
+# Serialise the global hash as a JSON string and echo it to Alfred.
+puts result.to_json()
