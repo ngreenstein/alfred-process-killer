@@ -1,5 +1,5 @@
 # Description
-Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving processes. It is, in essence, a way to easily find processes by name and kill them using `kill -9`.
+Kill Process is an Alfred 3 workflow that makes it easy to kill misbehaving processes. It is, in essence, a way to easily find processes by name and kill them using `kill -9`.
 
 # Features
 * Autocompletes process names
@@ -10,6 +10,7 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 * Shows process paths
 * Ignores case
 * Kills all processes with matching names on <kbd>cmd</kbd>+<kbd>return</kbd>
+* Kills and relaunches a process on <kbd>shift</kbd>+<kbd>return</kbd>
 * Supports [Alleyoop updating](http://www.alfredforum.com/topic/1582-alleyoop-update-alfred-workflows/).
 
 ![screenshot: `kill it`](screenshot1.png)
@@ -19,8 +20,9 @@ Kill Process is an Alfred 2 workflow that makes it easy to kill misbehaving proc
 1. Type `kill` into Alfred followed by a space.
 2. Begin typing the name of the process you want to kill.
 3. When you see the process you want to kill, select it from the list as usual.
-4. Press return to kill the selected process.  
-Alternatively, press <kbd>cmd</kbd>+<kbd>return</kbd> to kill all processes with the same name as the selected one.
+4. Press return to kill the selected process. Alternatively: 
+  - Press <kbd>cmd</kbd>+<kbd>return</kbd> to kill all processes with the same name as the selected one.
+  - Press <kbd>shift</kbd>+<kbd>return</kbd> to relaunch the selected process after killing it.
 
 To filter by argument, add a colon and the argument you want to target (or a snippet of it) after your processes name (see the [second screenshot](screenshot2.png)).
 
